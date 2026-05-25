@@ -1,8 +1,11 @@
 from flask import Flask, request, render_template
 from pickle import load
+from pathlib import Path
 
 app = Flask(__name__)
-model = load(open("/workspaces/flask-render-integration/models/decision_tree_classifier_default_42.sav", "rb"))
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR.parent / "models" / "decision_tree_classifier_default_42.sav"
+model = load(open(MODEL_PATH, "rb"))
 # Compatibility for models trained with older scikit-learn versions.
 if not hasattr(model, "monotonic_cst"):
     model.monotonic_cst = None
